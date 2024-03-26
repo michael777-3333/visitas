@@ -10,7 +10,7 @@ const mongoose =require('mongoose')
 
 const connectDB = async()=> {
     try {
-        await mongoose.connect('mongodb://127.0.0.1:27017/Vistas') 
+        await mongoose.connect('mongodb+srv://porrasmichael882:Michael_777555@cluster0.iludv5c.mongodb.net/Vistas') 
         // await mongoose.connect('mongodb+srv://porrasmichael882:Michael_777555@cluster0.iludv5c.mongodb.net/pelisMike');
 
         console.log('DB is connected');
