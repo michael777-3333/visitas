@@ -1,8 +1,8 @@
-import http from 'http';
+// import http from 'http';
 import connectDB from './db.js';
 import express from 'express';
-import { Server as SocketIO } from 'socket.io';
-import { initSocket } from './socket1.js';
+// import { Server as SocketIO } from 'socket.io';
+// import { initSocket } from './socket1.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import views from './routes/viwes.routes.js'
