@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* Estilos para el botón */
+        .custom-button {
+            width: 80px;
+            margin-bottom: 10px;
+            padding: 8px 16px;
+            /* Añadir relleno para hacer el botón más grande */
+            border: none;
+            border-radius: 5px;
+            background-color: #3e413e;
+            /* Color de fondo */
+            color: white;
+            /* Color del texto */
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            /* Transición suave del color de fondo */
+        }
+
+        /* Estilos para cambiar el color del botón cuando se pasa el mouse */
+        .custom-button:hover {
+            background-color: #1d241d;
+            /* Cambia el color de fondo cuando se pasa el mouse */
+        }
+    </style>
+</head>
+
+<body>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.8/axios.min.js"
+        integrity="sha512-PJa3oQSLWRB7wHZ7GQ/g+qyv6r4mbuhmiDb8BjSFZ8NZ2a42oTtAq5n0ucWAwcQDlikAtkub+tPVCw4np27WCg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer">
+        </script>
+
+    <div id="app">
+        <form action="/qr" method="POST" style="margin-bottom:20px; display: flex; justify-content: center;">
+            <div style="display: flex; flex-direction: column; justify-content: center;">
+                <div style='text-align: center;'>
+                    <h1>Crear Qr</h1>
+                </div>
+                <input
+                    style="width: 400px; margin-bottom: 10px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px;"
+                    placeholder="Url" value="" name="url" type="text" required>
+                <input
+                    style="width: 400px; margin-bottom: 10px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px;"
+                    placeholder="Campaña" value="" name="campaign" type="text" required>
+                <div style="display: flex; justify-content: center;">
+                    <input class="custom-button" style="width: 80px; margin-bottom: 10px;" type="submit" value="Crear">
+                </div>
+            </div>
+        </form>
+        <div v-show="showAlert==true" style="display: flex; justify-content: center;">
+            <div style="width:400px; text-align: center;" class="alert alert-danger" role="alert">
+                {{ errorsMessage }}
+              </div>
+        </div>
+
+        <div v-show="showAlertSucces==true" style="display: flex; justify-content: center;">
+            <div style="width:400px; text-align: center;" class="alert alert-primary" role="alert">
+                {{ succesfullyMessage }}
+              </div>
+        </div>
+        
+        <div style="display: flex; justify-content: end;">
+            <input @input="filter" v-model="textFilter"
+                style="width: 400px; margin-bottom: 10px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px; margin-right:168px ;"
+                placeholder="Filtrar" name="filtrar" type="text">
+        </div>
+
+        <div style="display: flex; justify-content: center; width: 100%;align-items: center;">
+            <div style=" width: 1200px; align-items: center ; box-shadow: 0 0 10px rgba(135, 126, 126, 0.5);">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Campaña</th>
+                            <th scope="col">Url</th>
+                            <th scope="col">Cantidad de visitas</th>
+                            <th scope="col">Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-show="showTable==false" v-for="(item,index) in arrayQrs.visitas">
+                            <td>{{ item.visits.campaign }}</td>
+                            <td>{{ item.visits.url }}</td>
+                            <td>{{ item.count }}</td>
+                            <td>
+                                <button type="button" @click="getData(item)" class="btn btn-primary m-2"
+                                    data-bs-toggle="modal" data-bs-target="#exampleModal">Editar</button>
+                                <button @click="viewsTo0(item)" class="btn btn-primary">Igualar a 0</button>
+                            </td>
+                        </tr>
+
+                        <tr v-show="showTable==true" v-for="(item,index) in qrFilter.visitas">
+                            <td>{{ item.visits.campaign }}</td>
+                            <td>{{ item.visits.url }}</td>
+                            <td>{{ item.count }}</td>
+                            <td>
+                                <button type="button" @click="getData(item)" class="btn btn-primary m-2"
+                                    data-bs-toggle="modal" data-bs-target="#exampleModal">Editar</button>
+                                <button @click="viewsTo0(item)" class="btn btn-primary">Igualar a 0</button>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+
+        <!-- MODAL PARA EDITAR  -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Editar Qr</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div style="display: flex; flex-direction: column; justify-content: center;">
+                            <input
+                                style="width: 400px; margin-bottom: 10px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px;"
+                                placeholder="Url" v-model="url" name="url" type="text">
+                            <input
+                                style="width: 400px; margin-bottom: 10px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px;"
+                                placeholder="Campaña" v-model="campaign" name="campaign" type="text">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" @click="editQr" class="btn btn-primary" data-bs-dismiss="modal">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script>
+        const { createApp, ref, onMounted } = Vue
+
+        createApp({
+            setup() {
+                let message = ref('gola')
+                let arrayQrs = ref([])
+                let url = ref()
+                let campaign = ref()
+                let idItem = ref()
+                let textFilter = ref()
+                let showTable = ref(false)
+                let qrFilter = ref([])
+                let errorsMessage=ref()
+                let showAlert=ref(false)
+                let showAlertSucces=ref(false)
+                let succesfullyMessage=ref()
+                async function qrs() {
+                    try {
+                        const response = await axios.get('http://localhost:3000/qr/all')
+                        arrayQrs.value = response.data
+                    } catch (error) {
+                        console.log(error);
+                    }
+                }
+
+                function filter() {
+                    textFilter.value = textFilter.value.toLowerCase()
+                    const { visitas } = arrayQrs.value;
+                    let array = Array.from(visitas)
+
+                    if (textFilter.value.trim() !== '') {
+                        showTable.value = true
+                        array = array.filter(qr => qr.visits.campaign.toLowerCase().includes(textFilter.value));
+                        const objeto = {
+                            visitas: array
+                        };
+                        qrFilter.value = objeto
+                    } else {
+                        showTable.value = false
+                    }
+                }
+                function getData(params) {
+                    url.value = params.visits.url
+                    campaign.value = params.visits.campaign
+                    idItem.value = params.visits._id
+                }
+
+                async function editQr() {
+                    let data = {
+                        url: url.value,
+                        campaign: campaign.value,
+                        id: idItem.value
+                    };
+                    try {
+                        const response = await axios.put('http://localhost:3000/qr', data)
+                        console.log(response)
+                        showAlertSucces.value=true
+                        succesfullyMessage.value=response.data.message
+                        setTimeout(()=>{
+                            showAlertSucces.value=false
+                        },3000)
+                    } catch (error) {
+                        showAlert.value=true
+                        errorsMessage.value=error.response.data[0]
+                        setTimeout(()=>{
+                            showAlert.value=false
+                        },3000)
+                    }
+                }
+
+                async function viewsTo0(params) {
+                    let data = {
+                        id: params._id,
+                        count: 0
+                    }
+                    try {
+                        const response = await axios.put('http://localhost:3000/qr/0', data)
+
+                    } catch (error) {
+                        console.log(error);
+                    }
+                }
+
+
+                onMounted(() => {
+                    qrs()
+
+                })
+
+                return {
+                    message, arrayQrs, getData, url, campaign, editQr, idItem, viewsTo0, filter, textFilter, showTable, qrFilter,errorsMessage,showAlert,succesfullyMessage,showAlertSucces
+                }
+            }
+        }).mount('#app')
+
+
+
+
+    </script>
+</body>
+
+</html>
