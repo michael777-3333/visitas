@@ -66,7 +66,7 @@ export const createQr = async (req, res) => {
     if (fileSystem.existsSync("qr_img.png")) {
       fileSystem.unlinkSync("qr_img.png");
     }
-    let qr_svg = qr.image(`http://localhost:3000/index/${qrSaved._id}`);
+    let qr_svg = qr.image(`https://visitas-1ql1.onrender.com/index/${qrSaved._id}`);
     const writeStream = qr_svg.pipe(fileSystem.createWriteStream("qr_img.png"));
     writeStream.on("finish", async () => {
       let filePath = path.join("qr_img.png");
