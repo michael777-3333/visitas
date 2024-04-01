@@ -1,5 +1,4 @@
 import {Router} from 'express'
-// import { index} from '../controllers/socket.js'
 import { index, createQr,allQrs,editQr,viewsTo0 } from '../controllers/qr.js';
 const router =Router()
 

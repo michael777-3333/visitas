@@ -8,8 +8,6 @@ import qrModel from "../models/qr.model.js";
 
 export const index = async (req, res) => {
   try {
-    // const visitas = await vistasModel.find().populate('visits').exec();
-    // if (!visitas) return res.status(400).json(['Visits not found'])
     res.render("qr.ejs");
   } catch (error) {
     console.log(error);
@@ -39,7 +37,6 @@ export const editQr= async (req,res)=>{
     res.status(200).json({message:"QR Editado con exito",qr});
   } catch (error) {
     res.status(401).json(error)
-    // console.log(error);
   }
 }
 
