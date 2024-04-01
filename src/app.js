@@ -20,18 +20,18 @@ const __dirname = path.dirname(__filename);
 app.set('views', path.join(__dirname, 'views')); 
 app.set('view engine', 'ejs');
 
-const server = http.createServer(app);
-const io = new SocketIO(server);
+// const server = http.createServer(app);
+// const io = new SocketIO(server);
 
-initSocket(io); 
+// initSocket(io); 
 app.use(views)
 app.use(qr)
 connectDB();
 
 const PORT = 3000;
-server.listen(PORT, () => {
+app.listen(PORT, () => {
     console.log(`Servidor escuchando en el puerto ${PORT}`);
 });
 
 
-export { app,server, io };
+export { app};

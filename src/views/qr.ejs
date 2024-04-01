@@ -168,7 +168,7 @@
                 let succesfullyMessage=ref()
                 async function qrs() {
                     try {
-                        const response = await axios.get('http://localhost:3000/qr/all')
+                        const response = await axios.get('https://visitas-1ql1.onrender.com/qr/all')
                         arrayQrs.value = response.data
                     } catch (error) {
                         console.log(error);
