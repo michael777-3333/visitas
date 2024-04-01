@@ -168,7 +168,7 @@
                 let succesfullyMessage=ref()
                 async function qrs() {
                     try {
-                        const response = await axios.get('http://localhost:3000/qr/all')
+                        const response = await axios.get('https://visitas-1ql1.onrender.com/qr/all')
                         arrayQrs.value = response.data
                     } catch (error) {
                         console.log(error);
@@ -204,7 +204,7 @@
                         id: idItem.value
                     };
                     try {
-                        const response = await axios.put('http://localhost:3000/qr', data)
+                        const response = await axios.put('https://visitas-1ql1.onrender.com/qr', data)
                         console.log(response)
                         showAlertSucces.value=true
                         succesfullyMessage.value=response.data.message
@@ -226,7 +226,7 @@
                         count: 0
                     }
                     try {
-                        const response = await axios.put('http://localhost:3000/qr/0', data)
+                        const response = await axios.put('https://visitas-1ql1.onrender.com/qr/0', data)
 
                     } catch (error) {
                         console.log(error);
