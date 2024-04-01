@@ -4,17 +4,19 @@ import vistasModel from "../models/vistas.model.js";
 import path from "path";
 import fileSystem from "fs";
 import qrModel from "../models/qr.model.js";
+
+
 export const index = async (req, res) => {
   try {
-    const visitas = await vistasModel.find().populate('visits').exec();
-    if (!visitas) return res.status(400).json(['Visits not found'])
-    res.render("qr.ejs",{visitas});
+    // const visitas = await vistasModel.find().populate('visits').exec();
+    // if (!visitas) return res.status(400).json(['Visits not found'])
+    res.render("qr.ejs");
   } catch (error) {
     console.log(error);
   }
   
- 
 };
+
 export const allQrs = async (req, res) => {
   try {
     const visitas = await vistasModel.find().populate('visits').exec();
