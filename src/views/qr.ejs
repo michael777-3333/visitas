@@ -2,8 +2,8 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Panel QR</title>
     <style>
         /* Estilos para el botón */
@@ -34,50 +34,88 @@
 
 <body>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.8/axios.min.js"
         integrity="sha512-PJa3oQSLWRB7wHZ7GQ/g+qyv6r4mbuhmiDb8BjSFZ8NZ2a42oTtAq5n0ucWAwcQDlikAtkub+tPVCw4np27WCg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer">
-        </script>
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-    <div id="app">
-        <form action="/qr" method="POST" style="margin-bottom:20px; display: flex; justify-content: center;">
-            <div style="display: flex; flex-direction: column; justify-content: center;">
-                <div style='text-align: center;'>
+    <div id="app" class="container">
+        <form action="/qr" method="POST" style="margin-bottom: 20px; display: flex; justify-content: center">
+            <div style="display: flex; flex-direction: column; justify-content: center">
+                <div style="text-align: center">
                     <h1>Crear Qr</h1>
                 </div>
-                <input
-                    style="width: 400px; margin-bottom: 10px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px;"
-                    placeholder="Url" value="" name="url" type="text" required>
-                <input
-                    style="width: 400px; margin-bottom: 10px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px;"
-                    placeholder="Campaña" value="" name="campaign" type="text" required>
-                <div style="display: flex; justify-content: center;">
-                    <input class="custom-button" style="width: 80px; margin-bottom: 10px;" type="submit" value="Crear">
+                <input style="
+              width: 400px;
+              margin-bottom: 10px;
+              padding: 10px;
+              border: 1px solid #ccc;
+              border-radius: 5px;
+              font-size: 16px;
+            " placeholder="Url" value="" name="url" type="text" required />
+                <input style="
+              width: 400px;
+              margin-bottom: 10px;
+              padding: 10px;
+              border: 1px solid #ccc;
+              border-radius: 5px;
+              font-size: 16px;
+            " placeholder="Campaña" value="" name="campaign" type="text" required />
+                <div style="display: flex; justify-content: center">
+                    <input class="custom-button" style="width: 80px; margin-bottom: 10px" type="submit" value="Crear" />
                 </div>
             </div>
         </form>
-        <div v-show="showAlert==true" style="display: flex; justify-content: center;">
-            <div style="width:400px; text-align: center;" class="alert alert-danger" role="alert">
+
+        <div v-show="showAlert===true" style="display: flex; justify-content: center">
+            <div style="width: 400px; text-align: center" class="alert alert-danger" role="alert">
                 {{ errorsMessage }}
-              </div>
+            </div>
         </div>
 
-        <div v-show="showAlertSucces==true" style="display: flex; justify-content: center;">
-            <div style="width:400px; text-align: center;" class="alert alert-primary" role="alert">
+        <div v-show="showAlertSucces===true" style="display: flex; justify-content: center">
+            <div style="width: 400px; text-align: center" class="alert alert-primary" role="alert">
                 {{ succesfullyMessage }}
-              </div>
-        </div>
-        
-        <div style="display: flex; justify-content: end;">
-            <input @input="filter" v-model="textFilter"
-                style="width: 400px; margin-bottom: 10px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px; margin-right:168px ;"
-                placeholder="Filtrar" name="filtrar" type="text">
+            </div>
         </div>
 
-        <div style="display: flex; justify-content: center; width: 100%;align-items: center;">
-            <div style=" width: 1200px; align-items: center ; box-shadow: 0 0 10px rgba(135, 126, 126, 0.5);">
+        <form action="/last/qr" method="get">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-auto col-sm-12 col-md-6 justify-content-sm-center"
+                        style="display: flex; justify-content: start; ">
+                        <input class="custom-button" style="width: 100px; margin-bottom: 10px" type="submit"
+                            value="Ultimo Qr" />
+                    </div>
+
+                    <div class="col-xs-auto col-sm-12 col-md-6 justify-content-md-end justify-content-sm-center "
+                        style="display: flex;justify-content: end;">
+                        <input @input="filter" v-model="textFilter" style="
+                            width: 400px;
+                            margin-bottom: 10px;
+                            padding: 10px;
+                            border: 1px solid #ccc;
+                            border-radius: 5px;
+                            font-size: 16px;
+                           margin-right: 30px;
+                            " placeholder="Filtrar" name="filtrar" type="text" />
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <div style="
+          display: flex;
+          justify-content: center;
+          width: 100%;
+          align-items: center;
+        ">
+            <div style="
+            width: 1200px;
+            align-items: center;
+            box-shadow: 0 0 10px rgba(135, 126, 126, 0.5);
+          ">
                 <table class="table">
                     <thead>
                         <tr>
@@ -88,34 +126,54 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-show="showTable==false" v-for="(item,index) in arrayQrs.visitas">
+                        <tr v-show="showTable===false"
+                            v-for="(item,index) in arrayQrs.slice((page - 1) * itemsPerPage, page * itemsPerPage)">
                             <td>{{ item.visits.campaign }}</td>
                             <td>{{ item.visits.url }}</td>
                             <td>{{ item.count }}</td>
                             <td>
                                 <button type="button" @click="getData(item)" class="btn btn-primary m-2"
-                                    data-bs-toggle="modal" data-bs-target="#exampleModal">Editar</button>
-                                <button @click="viewsTo0(item)" class="btn btn-primary">Igualar a 0</button>
+                                    data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                    Editar
+                                </button>
+                                <button @click="viewsTo0(item)" class="btn btn-primary">
+                                    Igualar a 0
+                                </button>
                             </td>
                         </tr>
 
-                        <tr v-show="showTable==true" v-for="(item,index) in qrFilter.visitas">
+                        <tr v-show="showTable===true" v-for="(item,index) in qrFilter">
                             <td>{{ item.visits.campaign }}</td>
                             <td>{{ item.visits.url }}</td>
                             <td>{{ item.count }}</td>
                             <td>
                                 <button type="button" @click="getData(item)" class="btn btn-primary m-2"
-                                    data-bs-toggle="modal" data-bs-target="#exampleModal">Editar</button>
-                                <button @click="viewsTo0(item)" class="btn btn-primary">Igualar a 0</button>
+                                    data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                    Editar
+                                </button>
+                                <button @click="viewsTo0(item)" class="btn btn-primary">
+                                    Igualar a 0
+                                </button>
                             </td>
                         </tr>
-
                     </tbody>
                 </table>
+                <div style="display: flex; justify-content: center;">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination">
+                            <li @click="page--" v-show="page!=1" class="page-item"><a class="page-link">Previous</a>
+                            </li>
+
+
+
+                            <li @click="page++" v-show="page * itemsPerPage <= arrayQrs.length" class="page-item"><a
+                                    class="page-link">Next</a></li>
+                        </ul>
+                    </nav>
+                </div>
+
             </div>
-
         </div>
-
 
         <!-- MODAL PARA EDITAR  -->
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -126,128 +184,181 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <div style="display: flex; flex-direction: column; justify-content: center;">
-                            <input
-                                style="width: 400px; margin-bottom: 10px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px;"
-                                placeholder="Url" v-model="url" name="url" type="text">
-                            <input
-                                style="width: 400px; margin-bottom: 10px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px;"
-                                placeholder="Campaña" v-model="campaign" name="campaign" type="text">
+                        <div style="
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                ">
+                            <input style="
+                    width: 400px;
+                    margin-bottom: 10px;
+                    padding: 10px;
+                    border: 1px solid #ccc;
+                    border-radius: 5px;
+                    font-size: 16px;
+                  " placeholder="Url" v-model="url" name="url" type="text" />
+                            <input style="
+                    width: 400px;
+                    margin-bottom: 10px;
+                    padding: 10px;
+                    border: 1px solid #ccc;
+                    border-radius: 5px;
+                    font-size: 16px;
+                  " placeholder="Campaña" v-model="campaign" name="campaign" type="text" />
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" @click="editQr" class="btn btn-primary" data-bs-dismiss="modal">Save changes</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            Cerrar
+                        </button>
+                        <button type="button" @click="editQr" class="btn btn-primary" data-bs-dismiss="modal">
+                            Guardar Cambios
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
     <script>
-        const { createApp, ref, onMounted } = Vue
+        const { createApp, ref, onMounted } = Vue;
 
         createApp({
             setup() {
-                let message = ref('gola')
-                let arrayQrs = ref([])
-                let url = ref()
-                let campaign = ref()
-                let idItem = ref()
-                let textFilter = ref()
-                let showTable = ref(false)
-                let qrFilter = ref([])
-                let errorsMessage=ref()
-                let showAlert=ref(false)
-                let showAlertSucces=ref(false)
-                let succesfullyMessage=ref()
+                let message = ref("gola");
+                let arrayQrs = ref([]);
+                let url = ref();
+                let campaign = ref();
+                let idItem = ref();
+                let textFilter = ref();
+                let showTable = ref(false);
+                let qrFilter = ref([]);
+                let errorsMessage = ref();
+                let showAlert = ref(false);
+                let showAlertSucces = ref(false);
+                let linkBackEnd = 'https://visitas-1ql1.onrender.com'
+                // let linkBackEnd='http://localhost:3000'
+                let succesfullyMessage = ref();
+                let page = ref(2)
+                let itemsPerPage = ref(5)
+
                 async function qrs() {
                     try {
-                        const response = await axios.get('https://visitas-1ql1.onrender.com/qr/all')
-                        arrayQrs.value = response.data
+
+                        const response = await axios.get(`${linkBackEnd}/qr/all`);
+
+                        arrayQrs.value = await response.data.visitas;
+                        console.log(arrayQrs.value.length);
+
                     } catch (error) {
                         console.log(error);
                     }
                 }
 
-                function filter() {
-                    textFilter.value = textFilter.value.toLowerCase()
-                    const { visitas } = arrayQrs.value;
-                    let array = Array.from(visitas)
+                function pagination(params) {
 
-                    if (textFilter.value.trim() !== '') {
-                        showTable.value = true
-                        array = array.filter(qr => qr.visits.campaign.toLowerCase().includes(textFilter.value));
-                        const objeto = {
-                            visitas: array
-                        };
-                        qrFilter.value = objeto
+                }
+
+                function filter() {
+                    textFilter.value = textFilter.value.toLowerCase();
+                    let array = arrayQrs.value;
+
+                    console.log(array);
+                    if (textFilter.value.trim() !== "") {
+                        showTable.value = true;
+                        array = array.filter((qr) =>
+                            qr.visits.campaign.toLowerCase().includes(textFilter.value)
+                        );
+
+                        qrFilter.value = array;
                     } else {
-                        showTable.value = false
+                        showTable.value = false;
                     }
                 }
                 function getData(params) {
-                    url.value = params.visits.url
-                    campaign.value = params.visits.campaign
-                    idItem.value = params.visits._id
+                    url.value = params.visits.url;
+                    campaign.value = params.visits.campaign;
+                    idItem.value = params.visits._id;
                 }
 
                 async function editQr() {
                     let data = {
                         url: url.value,
                         campaign: campaign.value,
-                        id: idItem.value
+                        id: idItem.value,
                     };
                     try {
-                        const response = await axios.put('https://visitas-1ql1.onrender.com/qr', data)
-                        console.log(response)
-                        showAlertSucces.value=true
-                        succesfullyMessage.value=response.data.message
-                        setTimeout(()=>{
-                            showAlertSucces.value=false
-                        },3000)
+
+                        const response = await axios.put(
+                            `${linkBackEnd}/qr`,
+                            data
+                        );
+
+                        showAlertSucces.value = true;
+                        succesfullyMessage.value = response.data.message;
+                        setTimeout(() => {
+                            showAlertSucces.value = false;
+                        }, 3000);
                     } catch (error) {
-                        showAlert.value=true
-                        errorsMessage.value=error.response.data[0]
-                        setTimeout(()=>{
-                            showAlert.value=false
-                        },3000)
+                        showAlert.value = true;
+                        errorsMessage.value = error.response.data[0];
+                        setTimeout(() => {
+                            showAlert.value = false;
+                        }, 3000);
                     }
                 }
+
+
+
+
+
 
                 async function viewsTo0(params) {
                     let data = {
                         id: params._id,
-                        count: 0
-                    }
+                        count: 0,
+                    };
                     try {
-                        const response = await axios.put('https://visitas-1ql1.onrender.com/qr/0', data)
-
+                        const response = await axios.put(
+                            `${linkBackEnd}/qr/0`,
+                            data
+                        );
                     } catch (error) {
                         console.log(error);
                     }
                 }
 
-
                 onMounted(() => {
-                    qrs()
-
-                })
+                    qrs();
+                });
 
                 return {
-                    message, arrayQrs, getData, url, campaign, editQr, idItem, viewsTo0, filter, textFilter, showTable, qrFilter,errorsMessage,showAlert,succesfullyMessage,showAlertSucces
-                }
-            }
-        }).mount('#app')
-
-
-
-
+                    message,
+                    arrayQrs,
+                    getData,
+                    url,
+                    campaign,
+                    editQr,
+                    idItem,
+                    viewsTo0,
+                    filter,
+                    textFilter,
+                    showTable,
+                    qrFilter,
+                    errorsMessage,
+                    showAlert,
+                    succesfullyMessage,
+                    showAlertSucces,
+                    pagination,
+                    page,
+                    itemsPerPage
+                };
+            },
+        }).mount("#app");
     </script>
 </body>
 
