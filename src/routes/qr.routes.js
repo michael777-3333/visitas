@@ -3,7 +3,7 @@ import { index, createQr,allQrs,editQr,viewsTo0,dowlandLastQr } from '../control
 const router =Router()
 
 router.get('/qr/all',allQrs)
-router.get('/qr',index)
+router.get('/halltec/qr',index)
 router.post('/qr', createQr)
 router.put('/qr',editQr)
 router.put('/qr/0', viewsTo0 )
