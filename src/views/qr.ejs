@@ -53,7 +53,7 @@
               border: 1px solid #ccc;
               border-radius: 5px;
               font-size: 16px;
-            " placeholder="Url" value="" name="url" type="text" required />
+            " placeholder="Url" v-model="url" name="url" type="text" required />
                 <input style="
               width: 400px;
               margin-bottom: 10px;
@@ -61,9 +61,9 @@
               border: 1px solid #ccc;
               border-radius: 5px;
               font-size: 16px;
-            " placeholder="Campaña" value="" name="campaign" type="text" required />
+            " placeholder="Campaña" v-model="campaign" name="campaign" type="text" required />
                 <div style="display: flex; justify-content: center">
-                    <input class="custom-button" style="width: 80px; margin-bottom: 10px" type="submit" value="Crear" />
+                    <input class="custom-button" style="width: 80px; margin-bottom: 10px" @click="cleanInput" type="submit" value="Crear" />
                 </div>
             </div>
         </form>
@@ -312,10 +312,10 @@
                     }
                 }
 
-
-
-
-
+                function cleanInput() {
+                    url.value=''
+                    campaign.value=''
+                }
 
                 async function viewsTo0(params) {
                     let data = {
@@ -355,7 +355,8 @@
                     showAlertSucces,
                     pagination,
                     page,
-                    itemsPerPage
+                    itemsPerPage,
+                    cleanInput
                 };
             },
         }).mount("#app");
