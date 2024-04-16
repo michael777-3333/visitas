@@ -19,6 +19,7 @@ export const allQrs = async (req, res) => {
   try {
     const visitas = await vistasModel.find().populate('visits').exec();
     if (!visitas) return res.status(400).json(['Visits not found'])
+    console.log('peticion');
     res.json({visitas});
   } catch (error) {
     console.log(error);
