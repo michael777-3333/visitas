@@ -26,10 +26,5 @@ app.listen(PORT, () => {
     console.log(`Servidor escuchando en el puerto ${PORT}`);
 });
 
-var intervalID = setInterval(myCallback, 900000, "cada 15 minutos",);
 
-function myCallback(a) {
-  console.log(a);
-
-}
 export {app};
