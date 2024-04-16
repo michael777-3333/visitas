@@ -332,13 +332,6 @@
                     }
                 }
 
-                var intervalID = setInterval(myCallback, 100000, "cada minutos",);
-
-                async function myCallback(a) {
-                    const response = await axios.get(`${linkBackEnd}/qr/all`);
-                    console.log(a);
-                 
-                }
 
                 onMounted(() => {
                     qrs();
